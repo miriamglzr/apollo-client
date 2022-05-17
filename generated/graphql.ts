@@ -86,6 +86,15 @@ export type RemoveFromPlaylistInput = {
   videoId: Scalars['String'];
 };
 
+export type AddToPlaylistMutationVariables = Exact<{
+  playlistId: Scalars['ID'];
+  videoId: Scalars['String'];
+  title: Scalars['String'];
+}>;
+
+
+export type AddToPlaylistMutation = { __typename?: 'Mutation', addToPlaylist?: { __typename?: 'PlaylistInfo', id: string, name?: string | null } | null };
+
 export type CreatePlaylistMutationVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -105,7 +114,53 @@ export type GetPlaylistQueryVariables = Exact<{
 
 export type GetPlaylistQuery = { __typename?: 'Query', playlist?: { __typename?: 'PlaylistInfo', id: string, name?: string | null, videos?: Array<{ __typename?: 'PlaylistItem', videoId: string, title: string }> | null } | null };
 
+export type RemoveFromPlaylistMutationVariables = Exact<{
+  playlistId: Scalars['ID'];
+  videoId: Scalars['String'];
+}>;
 
+
+export type RemoveFromPlaylistMutation = { __typename?: 'Mutation', removeFromPlaylist?: { __typename?: 'PlaylistInfo', id: string, name?: string | null } | null };
+
+
+export const AddToPlaylistDocument = gql`
+    mutation addToPlaylist($playlistId: ID!, $videoId: String!, $title: String!) {
+  addToPlaylist(
+    input: {playlistId: $playlistId, videoId: $videoId, title: $title}
+  ) {
+    id
+    name
+  }
+}
+    `;
+export type AddToPlaylistMutationFn = Apollo.MutationFunction<AddToPlaylistMutation, AddToPlaylistMutationVariables>;
+
+/**
+ * __useAddToPlaylistMutation__
+ *
+ * To run a mutation, you first call `useAddToPlaylistMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToPlaylistMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToPlaylistMutation, { data, loading, error }] = useAddToPlaylistMutation({
+ *   variables: {
+ *      playlistId: // value for 'playlistId'
+ *      videoId: // value for 'videoId'
+ *      title: // value for 'title'
+ *   },
+ * });
+ */
+export function useAddToPlaylistMutation(baseOptions?: Apollo.MutationHookOptions<AddToPlaylistMutation, AddToPlaylistMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddToPlaylistMutation, AddToPlaylistMutationVariables>(AddToPlaylistDocument, options);
+      }
+export type AddToPlaylistMutationHookResult = ReturnType<typeof useAddToPlaylistMutation>;
+export type AddToPlaylistMutationResult = Apollo.MutationResult<AddToPlaylistMutation>;
+export type AddToPlaylistMutationOptions = Apollo.BaseMutationOptions<AddToPlaylistMutation, AddToPlaylistMutationVariables>;
 export const CreatePlaylistDocument = gql`
     mutation createPlaylist($name: String!) {
   createPlaylist(input: {name: $name}) {
@@ -215,3 +270,38 @@ export function useGetPlaylistLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetPlaylistQueryHookResult = ReturnType<typeof useGetPlaylistQuery>;
 export type GetPlaylistLazyQueryHookResult = ReturnType<typeof useGetPlaylistLazyQuery>;
 export type GetPlaylistQueryResult = Apollo.QueryResult<GetPlaylistQuery, GetPlaylistQueryVariables>;
+export const RemoveFromPlaylistDocument = gql`
+    mutation removeFromPlaylist($playlistId: ID!, $videoId: String!) {
+  removeFromPlaylist(input: {playlistId: $playlistId, videoId: $videoId}) {
+    id
+    name
+  }
+}
+    `;
+export type RemoveFromPlaylistMutationFn = Apollo.MutationFunction<RemoveFromPlaylistMutation, RemoveFromPlaylistMutationVariables>;
+
+/**
+ * __useRemoveFromPlaylistMutation__
+ *
+ * To run a mutation, you first call `useRemoveFromPlaylistMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveFromPlaylistMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeFromPlaylistMutation, { data, loading, error }] = useRemoveFromPlaylistMutation({
+ *   variables: {
+ *      playlistId: // value for 'playlistId'
+ *      videoId: // value for 'videoId'
+ *   },
+ * });
+ */
+export function useRemoveFromPlaylistMutation(baseOptions?: Apollo.MutationHookOptions<RemoveFromPlaylistMutation, RemoveFromPlaylistMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveFromPlaylistMutation, RemoveFromPlaylistMutationVariables>(RemoveFromPlaylistDocument, options);
+      }
+export type RemoveFromPlaylistMutationHookResult = ReturnType<typeof useRemoveFromPlaylistMutation>;
+export type RemoveFromPlaylistMutationResult = Apollo.MutationResult<RemoveFromPlaylistMutation>;
+export type RemoveFromPlaylistMutationOptions = Apollo.BaseMutationOptions<RemoveFromPlaylistMutation, RemoveFromPlaylistMutationVariables>;
